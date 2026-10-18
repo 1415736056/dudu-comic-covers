@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7fc">
+  <meta name="description" content="嘟嘟分享菌的漫画封面工作台：查找漫画封面、下载高清原图、一键复制发布标题。">
+  <title>漫画封面库 · 嘟嘟分享菌</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="masthead">
+    <a class="brand" href="./" aria-label="漫画封面库首页"><span class="brand-mark" aria-hidden="true">嘟</span><span>嘟嘟分享菌<small>漫画封面工作台</small></span></a>
+    <a class="text-link" href="titles.txt" download="100部漫画标题.txt">下载全部标题</a>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><h1 id="page-title">挑一张封面，<br class="mobile-break">开始下一次分享。</h1><p>找到作品，复制标题，下载封面。<br>每张图片和标题都已配好，手机上也能直接用。</p></div>
+      <div class="cover-stack" aria-hidden="true"><img src="previews/007.webp" alt=""><img src="previews/003.webp" alt=""><img src="previews/001.webp" alt=""></div>
+    </section>
+    <section class="toolbox" aria-label="查找和筛选">
+      <div class="search-row"><label class="searchbox"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></svg><input id="search" type="search" placeholder="搜索漫画名、卷数或标题关键词" aria-label="搜索漫画名或标题" autocomplete="off"><kbd>/</kbd></label><label class="sort"><span class="sr-only">排序方式</span><select id="sort"><option value="original">原始顺序</option><option value="name">按名称排序</option></select></label></div>
+      <div class="filter-row"><div class="tabs" role="group" aria-label="使用状态"><button data-filter="all" class="active" aria-pressed="true">全部 <span id="all-count">100</span></button><button data-filter="unused" aria-pressed="false">未使用 <span id="unused-count">100</span></button><button data-filter="used" aria-pressed="false">已使用 <span id="used-count">0</span></button></div><span id="result-count" role="status" aria-live="polite">正在载入素材…</span></div>
+    </section>
+    <section id="motion-section" class="motion-section" hidden aria-labelledby="motion-heading"><div><span class="sample-tag">动效样片</span><h2 id="motion-heading">让封面轻轻动起来</h2><p>文字保持稳定，加入人物眨眼、轻推拉与闪光。点击查看效果。</p><button id="open-motion" class="btn primary">播放样片</button> <a class="btn secondary" href="videos/city-hunter-motion.mp4" download="城市猎人_动态封面样片.mp4">下载样片</a></div><video id="sample-thumb" src="videos/city-hunter-motion.mp4" poster="previews/003.webp" muted playsinline preload="none" aria-label="城市猎人动态封面样片"></video></section>
+    <section id="gallery" class="gallery" aria-label="漫画封面与标题"><p class="loading">正在打开封面库…</p></section>
+    <div id="empty" class="empty" hidden><h2>没有找到这部漫画</h2><p>试试作品名中的几个字，或清除筛选后再找。</p><button id="reset" class="btn primary">显示全部封面</button></div>
+    <div class="load-area"><button id="load-more" class="btn secondary" hidden>再显示 18 部</button></div>
+    <footer><p>嘟嘟分享菌 · 2026年10月18日整理</p><p>手机保存：点击「下载原图」；若浏览器打开图片，可长按保存。使用标记只保存在当前设备。</p><p>封面图片为发布素材，本站不提供漫画正文下载。</p></footer>
+  </main>
+  <dialog id="detail" aria-labelledby="detail-name"><div class="dialog-top"><h2 id="detail-name"></h2><button class="close" id="close-detail" aria-label="关闭大图">×</button></div><div class="detail-image-wrap"><img id="detail-image" alt=""></div><div class="detail-body"><p class="field-label">发布标题</p><textarea id="detail-title" rows="3" readonly aria-label="发布标题"></textarea><div class="detail-actions"><button id="detail-copy" class="btn primary">复制标题</button><a id="detail-download" class="btn secondary" download>下载原图</a><button id="detail-used" class="btn quiet">标记已用</button></div><p class="detail-hint" id="detail-meta"></p><p class="detail-hint">如果无法一键复制，可长按上面的标题手动复制。</p></div></dialog>
+  <dialog id="motion-dialog" aria-labelledby="motion-title"><div class="dialog-top"><h2 id="motion-title">城市猎人 · 动态封面样片</h2><button class="close" id="close-motion" aria-label="关闭样片">×</button></div><video id="motion-video" controls playsinline preload="none" poster="previews/003.webp"><source src="videos/city-hunter-motion.mp4" type="video/mp4"></video><div class="detail-body"><p>保留原封面信息，用局部眨眼与轻动效呈现。</p><a class="btn primary" href="videos/city-hunter-motion.mp4" download="城市猎人_动态封面样片.mp4">下载 MP4 样片</a></div></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js" defer></script>
+</body>
+</html>
