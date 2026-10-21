@@ -14,7 +14,7 @@
   }
   function render() {
     const list = matching();
-    $('gallery').innerHTML = list.slice(0, visibleLimit).map(item => `<article class="card" data-id="${item.id}"><button class="cover-open" data-action="open" aria-label="查看${escape(item.work)}大图"><img src="${item.preview}" alt="${escape(item.work)}漫画封面" width="880" height="495" loading="lazy" decoding="async"><span class="image-badge ${used.has(item.id) ? 'used-badge' : ''}">${used.has(item.id) ? '✓ 已使用' : '点击看原图'}</span></button><div class="card-body"><div class="card-heading"><h2>${escape(item.work)}</h2><span class="card-index">${String(item.id).padStart(3,'0')}</span></div><p class="card-title">${escape(item.title)}</p><div class="card-actions"><button class="btn primary" data-action="copy" aria-label="复制${escape(item.work)}标题">复制标题</button><a class="btn secondary" href="${item.cover}" download="${escape(item.filename)}" data-action="download" aria-label="下载${escape(item.work)}原图">下载原图</a></div><button class="mark-used" data-action="used" aria-label="${used.has(item.id) ? '取消' : '标记'}${escape(item.work)}已使用" aria-pressed="${used.has(item.id)}">${used.has(item.id) ? '✓ 已标记使用 · 点击撤销' : '用过这张？标记已用'}</button></div></article>`).join('');
+    $('gallery').innerHTML = list.slice(0, visibleLimit).map(item => `<article class="card" data-id="${item.id}"><button class="cover-open" data-action="open" aria-label="查看${escape(item.work)}大图"><img src="${item.preview}" alt="${escape(item.work)}漫画封面" width="880" height="495" loading="lazy" decoding="async"><span class="image-badge ${used.has(item.id) ? 'used-badge' : ''}">${used.has(item.id) ? '✓ 已使用' : '点击看原图'}</span></button><div class="card-body"><div class="card-heading"><h2>${escape(item.work)}</h2><span class="card-index">${String(item.id).padStart(3,'0')}</span></div><p class="card-title">${escape(item.title)}</p><div class="card-actions"><button class="btn primary" data-action="copy" aria-label="复制${escape(item.work)}标题">复制标题</button><a class="btn secondary" href="${item.cover}" download="${escape(item.filename)}" data-action="download" aria-label="下载${escape(item.work)}原图">下载原图</a><a class="btn secondary" style="grid-column:1/-1" href="motion.html?cover=${item.id}" aria-label="制作${escape(item.work)}动态封面">制作动效</a></div><button class="mark-used" data-action="used" aria-label="${used.has(item.id) ? '取消' : '标记'}${escape(item.work)}已使用" aria-pressed="${used.has(item.id)}">${used.has(item.id) ? '✓ 已标记使用 · 点击撤销' : '用过这张？标记已用'}</button></div></article>`).join('');
     $('all-count').textContent = records.length;
     $('used-count').textContent = records.filter(item => used.has(item.id)).length;
     $('unused-count').textContent = records.length - Number($('used-count').textContent);
@@ -32,6 +32,7 @@
     $('detail-title').value = item.title;
     $('detail-download').href = item.cover;
     $('detail-download').download = item.filename;
+    $('detail-motion').href = 'motion.html?cover=' + item.id;
     $('detail-meta').textContent = `无损高清图 · ${item.width} × ${item.height} · 下载时保存为 PNG`;
     $('detail-used').textContent = used.has(item.id) ? '取消已用标记' : '标记已用';
     if (!$('detail').open) $('detail').showModal();
