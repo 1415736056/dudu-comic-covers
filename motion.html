@@ -1,10 +1,10 @@
 <!doctype html>
 <html lang="zh-CN">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#008fc7"><title>自定义动态封面 · 嘟嘟分享菌</title><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="motion.css?v=20261021-1"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#008fc7"><title>自定义动态封面 · 嘟嘟分享菌</title><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="motion.css?v=20261023-1"></head>
 <body>
 <header><a class="brand" href="./"><img src="icon.svg" width="36" height="36" alt=""><span>嘟嘟分享菌<small>动态封面制作</small></span></a><a class="back" href="./">返回封面库</a></header>
 <main>
-  <div class="intro"><h1>把你的封面，做成一段视频。</h1><p>选一张漫画封面，或上传自己的图片。调整效果后，直接下载到手机。</p></div>
+  <div class="intro"><h1>把你的封面，做成一段视频。</h1><p>上传自己的图片，框选人物眼睛，让它眨眼。调整效果后，直接下载到手机。</p></div>
   <div class="workspace">
     <section class="preview-panel" aria-label="动效预览">
       <div class="stage"><canvas id="preview" width="1280" height="720" aria-label="当前图片动效预览"></canvas><div id="loading" class="stage-message">正在载入封面…</div></div>
@@ -15,7 +15,7 @@
       <div id="progress-box" hidden><progress id="progress" max="100" value="0"></progress><p id="progress-text" role="status"></p></div>
       <p id="message" class="message" role="status" aria-live="polite"></p>
       <section id="results-section" class="results" hidden><div class="section-heading"><h2>已生成的视频</h2><button id="download-all" class="secondary" hidden>打包下载 ZIP</button></div><p class="hint">点“下载视频”保存；手机也可以打开视频后长按保存或使用浏览器下载。</p><ul id="results"></ul></section>
-      <details class="sample"><summary>查看人物眨眼参考</summary><video src="videos/city-hunter-motion.mp4" poster="previews/003.webp" controls playsinline preload="none"></video><p>这个样片使用了单独制作的闭眼画面。本页自定义图片提供推拉、平移和扫光，不会自动让任意人物眨眼。</p></details>
+      <details class="sample"><summary>查看人物眨眼参考</summary><video src="videos/city-hunter-motion.mp4" poster="previews/003.webp" controls playsinline preload="none"></video><p>可在右侧“人物眨眼”中框选自己的图片。单图模式直接生成局部闭合效果；使用人物位置一致的闭眼图，能保留更自然的眼皮细节。</p></details>
     </section>
     <aside class="settings-panel">
       <fieldset id="image-controls"><legend>图片</legend>
@@ -24,6 +24,16 @@
         <div class="queue-head"><span id="queue-count">当前图片</span><button id="clear-queue" class="text-button">清空列表</button></div><div id="queue" class="queue" aria-label="图片列表"></div>
       </fieldset>
       <fieldset id="config-controls"><legend>动效配置</legend>
+        <section class="blink-settings" aria-labelledby="blink-heading"><h2 id="blink-heading">人物眨眼 <span>自定义图片</span></h2>
+          <label class="check"><input id="blinkEnabled" type="checkbox">启用人物眨眼</label>
+          <div class="blink-actions"><button id="blink-setup" class="primary" disabled>框选眼睛位置</button><button id="blink-preview-closed" class="secondary" disabled aria-pressed="false">查看闭眼</button></div>
+          <p id="blink-status" class="hint" role="status">选择图片后，一只眼睛框一个框。</p>
+          <label class="range-label">眨眼间隔 <output id="blinkInterval-value">3 秒</output><input id="blinkInterval" type="range" min="1" max="8" step=".5" value="3"></label>
+          <label class="range-label">一次眨眼用时 <output id="blinkDuration-value">0.28 秒</output><input id="blinkDuration" type="range" min=".12" max=".7" step=".02" value=".28"></label>
+          <details><summary>精细模式：使用自己的闭眼图（可选）</summary><p class="hint">上传与原图构图、人物位置一致的闭眼图片。仅替换已框选的眼睛，原有标题和其他画面保持不变。</p><label class="file-button secondary" for="blink-keyframe">选择闭眼图片<input id="blink-keyframe" type="file" accept="image/png,image/jpeg,image/webp,image/avif"></label><p id="blink-keyframe-name" class="hint">未设置：使用单图局部闭合</p><button id="blink-remove-keyframe" class="text-button" hidden>移除闭眼图</button></details>
+          <div id="blink-import-box" hidden><p class="hint">配置中包含眼睛位置。确认与当前图片对应后应用。</p><button id="blink-apply-import" class="secondary">应用导入的眼睛位置</button></div>
+          <p class="hint">每张图片单独框选，支持多个人物。眼睛框只圈住眼睛，尽量避开眉毛；单图模式是简易局部变形，正脸更合适。斜脸可在坐标中调整角度，或使用闭眼图获得更自然的效果。</p>
+        </section>
         <div class="two"><label>画面比例<select id="ratio"><option value="16:9">横屏 16:9</option><option value="9:16">竖屏 9:16</option><option value="1:1">方形 1:1</option></select></label><label>清晰度<select id="resolution"><option value="720">720p · 手机更轻松</option><option value="1080">1080p · 更清晰</option></select></label></div>
         <div class="two"><label>时长（秒）<input id="duration" type="number" min="3" max="30" step="1" value="12"></label><label>帧率<select id="fps"><option value="24">24 帧</option><option value="30">30 帧</option></select></label></div>
         <label>动效<select id="style"><option value="breathe">轻推拉 · 循环</option><option value="push">缓缓放大</option><option value="pull">缓缓缩小</option><option value="pan">左右平移</option><option value="still">保持静止 · 可叠加扫光</option></select></label>
@@ -35,11 +45,12 @@
         <details><summary>添加固定文字</summary><label class="check"><input id="textEnabled" type="checkbox">显示自定义文字</label><label>文字内容（最多 40 字）<input id="text" type="text" maxlength="40" value="链接简介自取"></label><div class="two"><label>位置<select id="textPosition"><option value="bottom">底部</option><option value="top">顶部</option><option value="center">中间</option></select></label><label>字号<select id="textSize"><option value="4">小</option><option value="6" selected>中</option><option value="8">大</option></select></label></div><p class="hint">此处添加的文字固定不动。图片本身的文字会随图片一起移动。</p></details>
         <label>导出格式<select id="format"><option value="auto">自动选择（优先 MP4）</option><option value="mp4">MP4 · H.264</option><option value="webm">WebM</option></select></label>
         <div class="config-actions"><button id="save-config" class="secondary">保存配置</button><label class="file-button secondary" for="import-config">导入配置<input id="import-config" type="file" accept=".json,application/json"></label><button id="reset" class="text-button">恢复默认</button></div>
-        <p class="hint">设置会自动记住。配置文件不包含图片，换设备后请重新选择图片。视频无配音，可导入剪映继续配乐。</p>
+        <p class="hint">常规参数会自动记住。眼睛位置可随“保存配置”导出；图片和闭眼图需在设备上重新选择。视频无配音，可导入剪映继续配乐。</p>
       </fieldset>
     </aside>
   </div>
 </main><footer>图片在你的设备上处理，选择图片不会公开上传。<a href="vendor/MEDIABUNNY-LICENSE.txt">视频组件许可</a></footer>
+<dialog id="eye-dialog" aria-labelledby="eye-heading"><div class="eye-heading"><div><h2 id="eye-heading">框选眼睛位置</h2><p>一只眼睛画一个框，尽量避开眉毛。手机可以先放大，再切换移动画布。</p></div><button id="eye-cancel" class="secondary" aria-label="取消框选">取消</button></div><div class="eye-toolbar"><button id="eye-tool" class="secondary" aria-pressed="false">当前：框选眼睛</button><label>放大 <input id="eye-zoom" type="range" min="100" max="600" step="25" value="100"><output id="eye-zoom-value">100%</output></label><button id="eye-undo" class="text-button">撤销上一个</button><button id="eye-clear" class="text-button">清空</button></div><div id="eye-scroller"><canvas id="eye-canvas" aria-label="在图片上拖动框选眼睛"></canvas></div><div class="eye-bottom"><span id="eye-count">已框选 0 / 12 只眼睛</span><button id="eye-save" class="primary">保存眼睛位置</button></div><details><summary>精确调整坐标（像素）</summary><div id="eye-list"></div></details></dialog>
 <noscript>请启用浏览器 JavaScript 后使用动态封面制作功能。</noscript>
-<script type="module" src="motion.js?v=20261021-1"></script>
+<script type="module" src="motion.js?v=20261023-1"></script>
 </body></html>
